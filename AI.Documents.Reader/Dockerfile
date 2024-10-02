@@ -3,7 +3,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY AI.Documents.Reader/AI.Documents.Reader.csproj AI.Documents.Reader/
-COPY AI.Documents.Reader.Client/AI.Documents.Reader.Client.csproj AI.Documents.Reader.Client/
+COPY ../AI.Documents.Reader.Client/AI.Documents.Reader.Client.csproj AI.Documents.Reader.Client/
 RUN dotnet restore AI.Documents.Reader/AI.Documents.Reader.csproj
 
 # FROM node:alpine AS nodetailwind
