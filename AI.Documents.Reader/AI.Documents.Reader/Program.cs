@@ -1,7 +1,6 @@
 using AI.Documents.Reader.Components;
 using AI.Documents.Reader.Interfaces;
 using AI.Documents.Reader.Services;
-using MudBlazor;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
