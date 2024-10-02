@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/AI.Documents.Reader.Web/config
+/.vs
+/AI.Documents.Reader/AI.Documents.Reader/bin
+/AI.Documents.Reader/AI.Documents.Reader/obj
+/AI.Documents.Reader/AI.Documents.Reader/Properties
+/AI.Documents.Reader/AI.Documents.Reader/appsettings.Development.json
+/AI.Documents.Reader/AI.Documents.Reader.Client/bin
+/AI.Documents.Reader/AI.Documents.Reader.Client/obj
+/AI.Documents.Reader/AI.Documents.Reader.Client/wwwroot/appsettings.Development.json
