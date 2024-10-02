@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider IsDarkMode="true" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider @rendermode="InteractiveServer" />
+
+<MudLayout>
+	<MudAppBar Elevation="1">
+		<MudText Typo="Typo.h5" Class="ml-3">Conversor de Documentos <span class="mud-primary-text">IA</span></MudText>
+		<MudSpacer />
+		@* <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" /> *@
+	</MudAppBar>
+	<MudMainContent>
+		@Body
+	</MudMainContent>
+	<Footer></Footer>
+</MudLayout>

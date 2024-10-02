@@ -1,0 +1,189 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+@using AI.Documents.Reader.Interfaces
+@using AI.Documents.Reader.Services
+@using System.Diagnostics
+
+@inject IEmailService EmailService;
+@inject ISnackbar SnackbarService;
+
+<PageTitle>Home</PageTitle>
+
+<MudContainer Class="mt-16">
+	<MudGrid>
+		<MudItem xs="12" sm="6">
+			<MudGrid>
+				<MudItem xs="12">
+					<MudPaper Elevation="2" Class="pa-4 custom-paper" Style="height: 140px;">
+						<MudText Typo="Typo.h4">
+							<span class="mud-secondary-text">Extraia</span> dados fiscais, financeiros e outros dados de documentos com <span class="mud-primary-text">Inteligência Artificial</span>
+						</MudText>
+					</MudPaper>
+				</MudItem>
+				<MudItem xs="12" Class="mt-20 mt-md-0">
+					<MudPaper Elevation="2" Class="pa-4 custom-paper" Style="height: 180px;">
+						<MudText Typo="Typo.h6">Automatize a leitura de documento com IA. Converta notas fiscais, PDF's, recibos e outros e converta para diversos formatos como Json e CSV.</MudText>
+					</MudPaper>
+				</MudItem>
+			</MudGrid>
+		</MudItem>
+		<MudItem xs="12" sm="6">
+			<MudPaper Elevation="2" Class="pa-4 custom-paper">
+				<div class="d-flex justify-center" Style="height: 400px;">
+					<MudImage Fluid="true" Src="th.jpg" Alt="Mony the dog" Elevation="25" Class="rounded-lg" />
+				</div>
+			</MudPaper>
+		</MudItem>
+	</MudGrid>
+</MudContainer>
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+<MudContainer Class="mt-16">
+	<MudGrid Class="mt-8">
+		<MudItem xs="12" sm="6" md="4">
+			<MudCard Elevation="25" Class="rounded-lg pb-4">
+				<MudCardContent>
+					<div class="d-flex justify-center">
+						<MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Primary">Rápido e Eficiente</MudText>
+					</div>
+					<MudList T="string" Class="mx-auto mt-4" Style="width:300px;">
+						<MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+							Transforme seus arquivos em segundos e aumente sua produtividade.
+						</MudListItem>
+					</MudList>
+				</MudCardContent>
+			</MudCard>
+		</MudItem>
+		<MudItem xs="12" sm="6" md="4">
+			<MudCard Elevation="25" Class="rounded-lg pb-4">
+				<MudCardContent>
+					<div class="d-flex justify-center">
+						<MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Primary">Fácil de Usar</MudText>
+					</div>
+					<MudList T="string" Class="mx-auto mt-4" Style="width:300px;">
+						<MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+							Fácil de conectar em seu sistema, api ou até mesmo uso manual.
+						</MudListItem>
+					</MudList>
+				</MudCardContent>
+			</MudCard>
+		</MudItem>
+		<MudItem xs="12" sm="12" md="4">
+			<MudCard Elevation="25" Class="rounded-lg pb-4">
+				<MudCardContent>
+					<div class="d-flex justify-center">
+						<MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Primary">Segurança Garantida</MudText>
+					</div>
+					<MudList T="string" Class="mx-auto mt-4" Style="width:300px;">
+						<MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+							Seus dados estão seguros conosco. A privacidade é nossa prioridade.
+						</MudListItem>
+						<MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+							Seus dados não serão armazenados.
+						</MudListItem>
+					</MudList>
+				</MudCardContent>
+			</MudCard>
+		</MudItem>
+	</MudGrid>
+</MudContainer>
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+<MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
+	<MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Contato</MudText>
+	<MudText Typo="Typo.h6" Align="Align.Center" GutterBottom="false">Entre em contato e agende uma demonstração gratuita</MudText>
+	<MudGrid Spacing="12" Class="mt-10">
+		<MudItem>
+			<MudGrid>
+				<MudItem xs="12">
+					<MudTextField T="string" Label="Nome / Razão" @bind-Value="name" Error="@_nameError" />
+				</MudItem>
+				<MudItem xs="12">
+					<MudTextField T="string" Label="Email" @bind-Value="email" Error="@_emailError" />
+				</MudItem>
+				<MudItem xs="12">
+					<MudTextField T="string" Label="Telefone / Celular" @bind-Value="phone" />
+				</MudItem>
+				<MudItem xs="12">
+					<MudTextField T="string" Label="Mensagem" Variant="Variant.Text" @bind-Value="message" Lines="5" Error="@_messageError" />
+				</MudItem>
+				<MudItem xs="12" Class="d-flex justify-center mb-8">
+					<MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary"
+							   Size="Size.Large" Class="mt-8" OnClick="SendEmail" Disabled="_processing">
+						@if (_processing)
+						{
+							<MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+							<MudText Class="ms-2">Enviando</MudText>
+						}
+						else
+						{
+							<MudText>Enviar</MudText>
+						}
+					</MudButton>
+				</MudItem>
+			</MudGrid>
+		</MudItem>
+	</MudGrid>
+</MudContainer>
+
+@code {
+	private bool _nameError = false;
+	private bool _emailError = false;
+	private bool _messageError = false;
+
+	private bool _processing = false;
+
+	private string name;
+	private string email;
+	private string phone;
+	private string message;
+
+	async Task SendEmail()
+	{
+		_processing = true;
+
+		try
+		{
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				_nameError = true;
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(email))
+			{
+				_emailError = true;
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(message))
+			{
+				_messageError = true;
+				return;
+			}
+
+			await EmailService.SendAsync(name, email, phone, message, new CancellationToken());
+			SnackbarService.Add("Email enviado com sucesso", Severity.Success);
+			Clear();
+		}
+		catch (Exception ex)
+		{
+			SnackbarService.Add("Erro ao enviar email", Severity.Error);
+		}
+		finally
+		{
+			_processing = false;
+		}
+	}
+
+	private void Clear()
+	{
+		_nameError = false;
+		_emailError = false;
+		_messageError = false;
+
+		name = string.Empty;
+		email = string.Empty;
+		phone = string.Empty;
+		message = string.Empty;
+	}
+}
