@@ -9,7 +9,7 @@ RUN dotnet restore "AI.Documents.Reader/AI.Documents.Reader.csproj"
 # FROM node:alpine AS nodetailwind
 # WORKDIR /src
 COPY . .
-WORKDIR /src/AI.Documents.Reader
+WORKDIR "/src/AI.Documents.Reader"
 # RUN npm run tailwind
 
 FROM restore AS build
@@ -17,7 +17,7 @@ ARG BUILD_CONFIGURATION=Release
 # WORKDIR /src
 # COPY --from=nodetailwind /src .
 # WORKDIR /src/AI.Documents.Reader
-RUN dotnet build AI.Documents.Reader.csproj -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "AI.Documents.Reader.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
